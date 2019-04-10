@@ -30,10 +30,24 @@ const stars = function(int1) {
     return 1;
   }
 }
+
+const shuffle = function(array) {
+  for(let i = array.length - 1; i > 0; i--){
+    let r = Math.floor(Math.random() * (i + 1));
+    let tmp = array[i];
+    array[i] = array[r];
+    array[r] = tmp;
+  }
+}
 </script>
 </head>
 <body>
-<p> これは文章です。なんちゃらかんちゃら </p>
+  <p> これは文章です。なんちゃらかんちゃら </p>
+  <script>
+    shuffle(seiza).forEach(function(str, index) {
+      console.log(`${index + 1}位: ${str}座`);
+    });
+  </script>
 </body>
 <foot>
 <a href="index.html">RETURN TO GAME CENTER</a>
