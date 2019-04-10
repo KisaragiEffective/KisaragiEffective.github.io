@@ -44,7 +44,9 @@ const shuffle = function(array) {
 <body>
   <p> これは文章です。なんちゃらかんちゃら </p>
   <script>
-    shuffle(seiza).forEach(function(str, index) {
+    const tpc = [].concat(seiza);
+    shuffle(tpc);
+    tpc.forEach(function(str, index) {
       console.log(`${index + 1}位: ${str}座`);
     });
   </script>
