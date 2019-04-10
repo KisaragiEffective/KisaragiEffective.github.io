@@ -51,7 +51,8 @@ const shuffle = function(array) {
     tpc.forEach(function(str, index) {
       const pqq = stars(index + 1);
       const tfr = "☆".repeat(pqq) + "★".repeat(5 - pqq);
-      const ymt = desc[pqq][Math.floor(Math.random()*items.length)];
+      const qrt = desc[pqq];
+      const ymt = qrt[Math.floor(Math.random()*qrt.length)];
       console.log(`${index + 1}位: ${str}座    ${tfr}\n${ymt}`);
     });
   </script>
