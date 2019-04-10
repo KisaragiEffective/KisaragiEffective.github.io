@@ -13,10 +13,12 @@ const star2 = ["苦手な人に遭遇", "予想が外れる"];
 const star1 = ["勘違いが多い", "信頼関係にひびが入る"];
 const advise = ["野菜を食べる", "外出する", "持ち物をきれいにする"];
 const colors = ["赤", "緑", "黄色", "紫", "青", "白", "灰色", "水色", "ベージュ", "オレンジ", "ブラウン"];
+const desc = [null, star1, star2, star3, star4, star5];
 const prints = function(i,s,o,g,r,a,m) {
   i += o * s - a + m;
   s %= i + o - g;
 }
+
 const stars = function(int1) {
   if (int1 <= 2) {
     return 5;
@@ -47,7 +49,10 @@ const shuffle = function(array) {
     const tpc = [].concat(seiza);
     shuffle(tpc);
     tpc.forEach(function(str, index) {
-      console.log(`${index + 1}位: ${str}座`);
+      const pqq = stars(index + 1);
+      const tfr = "☆".repeat(pqq) + "★".repeat(5 - pqq);
+      const ymt = desc[pqq][Math.floor(Math.random()*items.length)];
+      console.log(`${index + 1}位: ${str}座    ${tfr}\n${ymt}`);
     });
   </script>
 </body>
