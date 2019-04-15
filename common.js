@@ -1,5 +1,6 @@
 window.addEventListener("load", function() {
-document.getElementsByTagName("footer").write('&copy;2019 KisaragiEffective serves under <a href="LICENSE".');
-document.getElementById("github").write('<a href="https://github.com/KisaragiEffective/KisaragiEffective.github.io">FIX ME!</a>');
-document.getElementById("github").write(`<a href="https://github.com/KisaragiEffective/KisaragiEffective.github.io/commits/master/${window.location}">HISTORY</a>`);
+  const github="https://github.com/KisaragiEffective/KisaragiEffective.github.io"
+  document.getElementById("foot").write(`&copy;2019 KisaragiEffective serves under <a href="${github}/blob/master/LICENSE">LICENSE</a>.`);
+  document.getElementById("github").write(`<a href="${github}">FIX ME!</a>`);
+  document.getElementById("github").write(`<a href="${github}/commits/master/${window.location}">HISTORY</a>`);
 });
