@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        <script>
+            function reqListener() {
+                document.getElementById("content").innerText = (this.responseText);
+            }
+
+            const oReq = new XMLHttpRequest();
+            let params = (new URL(document.location)).searchParams;
+            let name = params.get('id'); // 文字列 "Jonathan Smith" です。
+            oReq.addEventListener("load", reqListener);
+            oReq.open("GET", "https://pastebin.com/raw" + id);
+            oReq.send();
+        </script>
+    </head>
+    <body>
+        <pre id="content">
+
+        </pre>
+    </body>
+</html>
