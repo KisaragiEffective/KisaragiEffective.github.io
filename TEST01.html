@@ -8,8 +8,8 @@
             }
 
             const oReq = new XMLHttpRequest();
-            let params = (new URL(document.location)).searchParams;
-            let name = params.get('id'); // 文字列 "Jonathan Smith" です。
+            const params = (new URL(document.location)).searchParams;
+            const id = params.get('id');
             oReq.addEventListener("load", reqListener);
             oReq.open("GET", "https://pastebin.com/raw" + id);
             oReq.send();
