@@ -19,16 +19,16 @@ const prints = function(i,s,o,g,r,a,m) {
   s %= i + o - g;
 }
 
-const stars = function(int1) {
-  if (int1 <= 2) {
+const stars = function(rank) {
+  if (rank <= 2) {
     return 5;
-  } else if (int1 <= 5) {
+  } else if (rank <= 5) {
     return 4;
-  } else if (int1 <= 8) {
+  } else if (rank <= 8) {
     return 3;
-  } else if (int1 <= 10) {
+  } else if (rank <= 10) {
     return 2;
-  } else if (int1 <= 12) {
+  } else if (rank <= 12) {
     return 1;
   }
 }
@@ -45,6 +45,9 @@ const shuffle = function(array) {
 </head>
 <body>
   <div id="github"></div>
+  <noscript>JavaScriptを有効にして再度お試しください。</noscript>
+  <div class="main">
+  </div>
   <p> これは文章です。なんちゃらかんちゃら </p>
   <script>
     const tpc = [].concat(seiza);
