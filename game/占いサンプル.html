@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+//
+window.addEventListener("load", (e) => {
+  // https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
+  const hashCode = s => s.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
+  $.ajax({
+    // 日替わりのランダムでソート
+    url: 'https://quarry.wmflabs.org/run/482547/output/0/json',
+    dataType: "json",
+    cache: false,
+    success: (data) => {
+       const index = hashCode(window.navigator.userAgent) % data.rows.length;
+       $('#message').html("今日のあなたのラッキーアイテムは「" + data.rows[index][0] + "」");
+    },
+    error: (xhr, textStatus, error) => {
+      [xhr, textStatus, error].forEach(x => console.log(x));
+      $('#message').html("Fetch failed. Reload to retry.");
+    }
+  });
+});
+// -->
+</script>
+</head>
+<body>
+<noscript>
+JavaScriptを有効にしてください。
+</noscript>
+<p id="message">ロード中…</p>
+</body>
+</html>
