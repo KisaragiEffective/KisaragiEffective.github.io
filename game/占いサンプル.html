@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 //
@@ -8,13 +9,13 @@ window.addEventListener("load", (e) => {
   // https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
   const hashCode = s => s.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
   $.ajax({
-    // “ú‘Ö‚í‚è‚Ìƒ‰ƒ“ƒ_ƒ€‚Åƒ\[ƒg
+    // æ—¥æ›¿ã‚ã‚Šã®ãƒ©ãƒ³ãƒ€ãƒ ã§ã‚½ãƒ¼ãƒˆ
     url: 'https://quarry.wmflabs.org/run/482547/output/0/json',
     dataType: "json",
     cache: false,
     success: (data) => {
        const index = hashCode(window.navigator.userAgent) % data.rows.length;
-       $('#message').html("¡“ú‚Ì‚ ‚È‚½‚Ìƒ‰ƒbƒL[ƒAƒCƒeƒ€‚Íu" + data.rows[index][0] + "v");
+       $('#message').html("ä»Šæ—¥ã®ã‚ãªãŸã®ãƒ©ãƒƒã‚­ãƒ¼ã‚¢ã‚¤ãƒ†ãƒ ã¯ã€Œ" + data.rows[index][0] + "ã€");
     },
     error: (xhr, textStatus, error) => {
       [xhr, textStatus, error].forEach(x => console.log(x));
@@ -27,8 +28,8 @@ window.addEventListener("load", (e) => {
 </head>
 <body>
 <noscript>
-JavaScript‚ð—LŒø‚É‚µ‚Ä‚­‚¾‚³‚¢B
+JavaScriptã‚’æœ‰åŠ¹ã«ã—ã¦ãã ã•ã„ã€‚
 </noscript>
-<p id="message">ƒ[ƒh’†c</p>
+<p id="message">ãƒ­ãƒ¼ãƒ‰ä¸­â€¦</p>
 </body>
 </html>
