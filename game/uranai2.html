@@ -26,6 +26,7 @@ window.addEventListener("load", (e) => {
     success: (data) => {
       console.log(data);
       const index = userHash() % data.rows.length;
+      console.log(index);
       const lucky = {
         item: data.rows[index][0]
       };
