@@ -9,14 +9,16 @@ window.addEventListener("load", (e) => {
   // https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
   const hashCode = s => s.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
   const userHash = () => {
-       let index = 17;
-       index += hashCode(window.navigator.userAgent);
-       index *= 31;
-       const d = new Date();
-       // 日付のみが関係する
-       index += d.getMonth() * 31 + d.getDate();
-       index *= 31;
-       return index;
+    let index = 17;
+    index += hashCode(window.navigator.userAgent);
+    index *= 31;
+    const d = new Date();
+    // 日付のみが関係する
+    index += d.getMonth();
+    index *= 31;
+    index += d.getDate();
+    index *= 31;
+    return index;
   };
   $.ajax({
     // 日替わりのランダムでソート
@@ -35,6 +37,7 @@ window.addEventListener("load", (e) => {
       $('#share-tweet')
         .attr('href', `https://twitter.com/intent/tweet?text=${encodeURIComponent("今日のラッキーアイテムは「" + lucky.item + "」\nhttps://kisaragieffective.github.io/game/uranai2.html")}`)
         .html("Share on twitter");
+      // TODO: Lucky color
     },
     error: (xhr, textStatus, error) => {
       [xhr, textStatus, error].forEach(x => console.log(x));
