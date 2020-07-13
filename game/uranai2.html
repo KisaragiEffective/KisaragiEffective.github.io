@@ -26,7 +26,7 @@ window.addEventListener("load", (e) => {
     success: (data) => {
        const index = userHash() % data.rows.length;
        const lucky = {
-         item: data.rows[index][0];
+         item: data.rows[index][0]
        };
        $('#message').html("今日のあなたのラッキーアイテムは「" + lucky.item + "」");
        $('#share-tweet')
