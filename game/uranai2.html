@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-//
+// <!--
 window.addEventListener("load", (e) => {
   // https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
   const hashCode = s => s.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
@@ -14,7 +14,12 @@ window.addEventListener("load", (e) => {
     dataType: "json",
     cache: false,
     success: (data) => {
-       const index = hashCode(window.navigator.userAgent) % data.rows.length;
+       let index = 17;
+       index += hashCode(window.navigator.userAgent);
+       index *= 31;
+       index += cv.getMonth() * 31 + cv.getDate();
+       index *= 31;
+       index %= data.rows.length;
        $('#message').html("今日のあなたのラッキーアイテムは「" + data.rows[index][0] + "」");
     },
     error: (xhr, textStatus, error) => {
