@@ -17,7 +17,8 @@ window.addEventListener("load", (e) => {
        let index = 17;
        index += hashCode(window.navigator.userAgent);
        index *= 31;
-       index += cv.getMonth() * 31 + cv.getDate();
+       const d = new Date();
+       index += d.getMonth() * 31 + d.getDate();
        index *= 31;
        index %= data.rows.length;
        $('#message').html("今日のあなたのラッキーアイテムは「" + data.rows[index][0] + "」");
