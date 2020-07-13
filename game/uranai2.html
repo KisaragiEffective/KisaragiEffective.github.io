@@ -16,6 +16,7 @@ window.addEventListener("load", (e) => {
        // 日付のみが関係する
        index += d.getMonth() * 31 + d.getDate();
        index *= 31;
+       return index;
   };
   $.ajax({
     // 日替わりのランダムでソート
