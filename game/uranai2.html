@@ -33,7 +33,7 @@ window.addEventListener("load", (e) => {
       };
       $('#message').html("今日のあなたのラッキーアイテムは「" + lucky.item + "」");
       $('#share-tweet')
-        .attr('href', `https://twitter.com/intent/tweet?text=${encodeURIComponent("今日のラッキーアイテムは「" + lucky.item + " 」\nhttps://kisaragieffective.github.io/game/uranai2.html")}`)
+        .attr('href', `https://twitter.com/intent/tweet?text=${encodeURIComponent("今日のラッキーアイテムは「" + lucky.item + "」\nhttps://kisaragieffective.github.io/game/uranai2.html")}`)
         .html("Share on twitter");
     },
     error: (xhr, textStatus, error) => {
