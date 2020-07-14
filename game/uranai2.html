@@ -20,7 +20,10 @@ window.addEventListener("load", (e) => {
     index *= 31;
     return index;
   };
-  $.ajax({
+  const assert = (o, b) => {
+    if (!b()) throw Error(b.toSource() + "Bad")
+  }; 
+  assert($, () => {typeof($) !== "undefined"}).ajax({
     // 日替わりのランダムでソート
     // TODO: 動的に単語を得る
     url: 'https://quarry.wmflabs.org/run/483242/output/0/json',
