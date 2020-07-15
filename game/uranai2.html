@@ -2,10 +2,14 @@
 <html>
 <head>
 <style>
-  #share-tweet {
+  .twitter-share-button {
     background-color: #88f;
     color: #fff;
     padding: 0.2em;
+  }
+  
+  .hidden {
+    display: none;
   }
 </style>  
 <meta charset="utf-8"/>
@@ -52,6 +56,7 @@ window.addEventListener("load", (e) => {
       $('#message').html("今日のあなたのラッキーアイテムは「" + lucky.item + "」");
       $('#share-tweet')
         .attr('href', `https://twitter.com/intent/tweet?text=${encodeURIComponent("今日のラッキーアイテムは「" + lucky.item + "」\nhttps://kisaragieffective.github.io/game/uranai2.html")}`)
+        .removeClass("hidden")
         .html("Share on twitter");
       // TODO: Lucky color
     },
@@ -73,6 +78,6 @@ JavaScriptを有効にしてください。
 </noscript>
 <p id="message">ロード中…</p>
 <!-- TODO: Hide during not loaded -->
-<a id="share-tweet" class="twitter-share-button"></a>
+<a id="share-tweet" class="twitter-share-button hidden"></a>
 </body>
 </html>
