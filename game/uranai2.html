@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+  #share-tweet {
+    background-color: #88f;
+    color: #fff;
+    padding: 0.2em;
+  }
+</style>  
 <meta charset="utf-8"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -23,7 +30,11 @@ window.addEventListener("load", (e) => {
   const assert = (o, b) => {
     if (!b()) throw Error(b.toString() + "Bad");
     return o;
-  }; 
+  };
+  const reportAjaxError = (xhr, textStatus, err) => {
+    [xhr, textStatus, err].forEach(x => console.log(x));
+  }
+  // wikitionaryからstaticなクエリの結果を取得
   $.ajax({
     // 日替わりのランダムでソート
     // TODO: 動的に単語を得る
@@ -45,9 +56,21 @@ window.addEventListener("load", (e) => {
       // TODO: Lucky color
     },
     error: (xhr, textStatus, error) => {
-      [xhr, textStatus, error].forEach(x => console.log(x));
+      reportAjaxError(xhr, textStatus, error);
       $('#message').html("Fetch failed. Reload to retry.");
     }
+  });
+  // ^^^ wikitionary
+  
+  $.ajax({
+    url: 'https://www.colordic.org/w',
+    dataType: 'html',
+    cache: 'true',
+    success: (html) => {
+      console.log(`success`);
+      console.log(html);
+    }
+    error: (xhr, status, err) => reportAjaxError(xhr, status, err);
   });
 });
 // -->
