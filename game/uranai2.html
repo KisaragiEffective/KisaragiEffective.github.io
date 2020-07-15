@@ -62,16 +62,7 @@ window.addEventListener("load", (e) => {
   });
   // ^^^ wikitionary
   
-  $.ajax({
-    url: 'https://www.colordic.org/w',
-    dataType: 'html',
-    cache: 'true',
-    success: (html) => {
-      console.log(`success`);
-      console.log(html);
-    },
-    error: (xhr, status, err) => reportAjaxError(xhr, status, err)
-  });
+  // TODO: Parse it and hard-code within this source.
 });
 // -->
 </script>
