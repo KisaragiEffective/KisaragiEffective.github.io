@@ -21,7 +21,8 @@ window.addEventListener("load", (e) => {
     return index;
   };
   const assert = (o, b) => {
-    if (!b()) throw Error(b.toSource() + "Bad")
+    if (!b()) throw Error(b.toSource() + "Bad");
+    return o;
   }; 
   assert($, () => {typeof($) !== "undefined"}).ajax({
     // 日替わりのランダムでソート
