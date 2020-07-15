@@ -32,7 +32,8 @@ window.addEventListener("load", (e) => {
     cache: false,
     success: (data) => {
       console.log(data);
-      const index = userHash() % data.rows.length;
+      // 負数を爆発四散！
+      const index = Math.abs(userHash()) % data.rows.length;
       console.log(index);
       const lucky = {
         item: data.rows[index][0]
