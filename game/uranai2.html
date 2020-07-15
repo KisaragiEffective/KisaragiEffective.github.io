@@ -69,8 +69,8 @@ window.addEventListener("load", (e) => {
     success: (html) => {
       console.log(`success`);
       console.log(html);
-    }
-    error: (xhr, status, err) => reportAjaxError(xhr, status, err);
+    },
+    error: (xhr, status, err) => reportAjaxError(xhr, status, err)
   });
 });
 // -->
@@ -81,6 +81,7 @@ window.addEventListener("load", (e) => {
 JavaScriptを有効にしてください。
 </noscript>
 <p id="message">ロード中…</p>
+<!-- TODO: Hide during not loaded -->
 <a id="share-tweet" class="twitter-share-button"></a>
 </body>
 </html>
