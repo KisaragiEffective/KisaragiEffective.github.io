@@ -24,7 +24,7 @@ window.addEventListener("load", (e) => {
     if (!b()) throw Error(b.toString() + "Bad");
     return o;
   }; 
-  assert($, () => {typeof($) !== "undefined"}).ajax({
+  $.ajax({
     // 日替わりのランダムでソート
     // TODO: 動的に単語を得る
     url: 'https://quarry.wmflabs.org/run/483242/output/0/json',
