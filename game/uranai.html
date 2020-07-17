@@ -21,7 +21,7 @@ window.addEventListener("load", (e) => {
     let ret;
     while (true) {
       $.get(`https://quarry.wmflabs.org/run/${dumpId}/output/${index}/json`, (it) => {ret = it})
-       .done(() => break);
+       .done(() => { break });
     }
     return ret;
   };
