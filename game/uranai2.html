@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- Yes! Yes! Yes! -->
+<meta charset="utf-8"/>
 <style>
   .twitter-share-button {
-    background-color: #88f;
+    background-color: #00acee;
     color: #fff;
-    padding: 0.2em;
+    padding: 0.35em;
   }
   
   .hidden {
     display: none;
   }
 </style>  
-<meta charset="utf-8"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 // <!--
@@ -31,10 +30,6 @@ window.addEventListener("load", (e) => {
     index += d.getDate();
     index *= 31;
     return index;
-  };
-  const assert = (o, b) => {
-    if (!b()) throw Error(b.toString() + "Bad");
-    return o;
   };
   const reportAjaxError = (xhr, textStatus, err) => {
     [xhr, textStatus, err].forEach(x => console.log(x));
@@ -55,8 +50,9 @@ window.addEventListener("load", (e) => {
         item: data.rows[index][0]
       };
       $('#message').html("今日のあなたのラッキーアイテムは「" + lucky.item + "」");
+      const encodedMessage = encodeURIComponent("今日のラッキーアイテムは「" + lucky.item + "」\nhttps://kisaragieffective.github.io/game/uranai2.html");
       $('#share-tweet')
-        .attr('href', `https://twitter.com/intent/tweet?text=${encodeURIComponent("今日のラッキーアイテムは「" + lucky.item + "」\nhttps://kisaragieffective.github.io/game/uranai2.html")}`)
+        .attr('href', `https://twitter.com/intent/tweet?text=${encodedMessage}`)
         .removeClass("hidden")
         .html("Share on twitter");
       // TODO: Lucky color
@@ -78,7 +74,6 @@ window.addEventListener("load", (e) => {
 JavaScriptを有効にしてください。
 </noscript>
 <p id="message">ロード中…</p>
-<!-- TODO: Hide during not loaded -->
 <a id="share-tweet" class="twitter-share-button hidden"></a>
 </body>
 </html>
