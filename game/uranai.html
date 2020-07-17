@@ -17,7 +17,7 @@ window.addEventListener("load", (e) => {
   /*
   * fetch quarry
   */
-  function quarry(dumpId, index = 0) {
+  function quarry(dumpId, index = 0, dataHandler, whenDone = () => {}) {
     let ret;
     let flag = true;
     let doFetch = true;
@@ -25,8 +25,8 @@ window.addEventListener("load", (e) => {
     while (flag) {
       if (doFetch) {
         doFetch = false;
-        $.get(`https://quarry.wmflabs.org/run/${dumpId}/output/${index}/json`, (it) => {ret = it})
-         .done(() => { flag = false; });
+        $.get(`https://quarry.wmflabs.org/run/${dumpId}/output/${index}/json`, (it) => dataHandler(it))
+         .done(whenDone);
       }
     }
     return ret;
