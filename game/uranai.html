@@ -19,9 +19,10 @@ window.addEventListener("load", (e) => {
   */
   function quarry(dumpId, index = 0) {
     let ret;
-    while (true) {
+    let flag = true;
+    while (flag) {
       $.get(`https://quarry.wmflabs.org/run/${dumpId}/output/${index}/json`, (it) => {ret = it})
-       .done(() => { break });
+       .done(() => { flag = false; });
     }
     return ret;
   };
