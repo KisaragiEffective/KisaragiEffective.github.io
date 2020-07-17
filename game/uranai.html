@@ -20,9 +20,14 @@ window.addEventListener("load", (e) => {
   function quarry(dumpId, index = 0) {
     let ret;
     let flag = true;
+    let doFetch = true;
+    // sync
     while (flag) {
-      $.get(`https://quarry.wmflabs.org/run/${dumpId}/output/${index}/json`, (it) => {ret = it})
-       .done(() => { flag = false; });
+      if (doFetch) {
+        doFetch = false;
+        $.get(`https://quarry.wmflabs.org/run/${dumpId}/output/${index}/json`, (it) => {ret = it})
+         .done(() => { flag = false; });
+      }
     }
     return ret;
   };
