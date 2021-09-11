@@ -1,0 +1,53 @@
+JEP 356 - 疑似乱数生成器の強化
+・他のプログラミング言語でも提供されている3つの実装を追加した
+＜Random、ThreadLocalRandom、SplittableRandomを「旧クラス群」と呼称する。以下同様＞
+・旧クラス群はアルゴリズムとして線形合同法 (下位ビット切り捨て) を使用しているが、この方法だと他のアルゴリズムへの置き換えが難しい。
+　例えば、Randomを受け付けるアプリケーションがあり、そのアルゴリズムを変更したいのであれば、Randomのサブタイプとして新しくアルゴリズムを定義する必要がある。そして、
+　RandomはSplittableRandomを受け付けないので、もしそれに変えたくなったら、アプリケーションの全てのシグネチャを書き換える必要がある。
+　ThreadLocalRandomならばその問題は起きない。
+・旧クラス群は`nextDouble`、`nextBoolean`、`ints`、`longs`というメソッドを提供しているが、これらは似たりよったりな実装で、コピーペーストに近い。
+　これらのコードをリファクタリングすることで、メンテナンス性が高まり、サードパーティが新しい疑似乱数生成器を作成するときに
+　再利用可能なメソッドを作成することができる。
+・2016年、テストがSplittableRandomの〈散らばりの？〉弱点を明らかにした。しかし、この弱さは実装を少々修正することで解決できる。
+　SplittableRandomの新しい実装であるLXMアルゴリズムは、ほぼ同じ速度、実装が簡単、SplittableRandomが陥りやすい
+　弱点を回避することができるという三拍子が揃っている。
+・疑似乱数生成器からStreamを取得できるようになったのであるクラス［訳注: classではない］のコードがとても簡単になる。
+・疑似乱数生成器アルゴリズムの中には、分割可能 (splittable) ではないものの、ジャンプ可能なものが多くある
+　〈おそらく、通常のジャンプと同様に非常に長いジャンプが可能なリープ可能なものもあるとされている〉
+　これまでのJavaでは、この性質を利用することは困難でした。
+　ジャンプ可能なアルゴリズムの例としては、Xoshiro256**やXoroshiro128+ [unimi] などがある。
+・新しくRandomGeneratorというインターフェースを定義する
+　・これは既存のジェネレーターと新しいジェネレーターの共通APIである
+　・`ints`、`longs`、`doubles`、`nextBoolean`、`nextInt`、`nextLong`、`nextDouble`、`nextFloat`といった既存のメソッドを定義する。
+　・SplittableRandomGeneratorはさらに`split`と`splits`を定義する。
+　・JumpableRandomGeneratorはさらに`jump`と`jumps`を定義する。ジャンプはいくらかの生成を飛ばす。
+　・LeapableRandomGeneratorはさらに`leap`と`leaps`を定義する。リープはたくさんの生成を飛ばす。
+　・ArbitrarilyJumpableRandomGeneratorはジャンプの回数を指定できる`jump`と`jumps`を定義する。
+・RandomGeneratorFactoryという新しいクラスを定義し、RandomGeneratorのインスタンスを作成する機能をもたせる。
+　・RandomGeneratorFactoryはRandomGeneratorの実装を格納するためにServiceLoader.Providerを使用する。
+・旧クラス群をリファクタリングし、それらの実装をひとまとめにすることで他のアルゴリズムによっても使用できるようにする。
+　・publicではないAbstractRandomGenerator、AbstractSplittableRandomGenerator、AbstractJumpableRandomGenerator、AbstractLeapableRandomGenerator、AbstractArbitrarilyJumpableRandomGeneratorを新しく定義し、それぞれ適切なメソッドの実装を持つ。
+　・旧クラス群はRandomGeneratorのサブタイプとなる。
+　・SecureRandomはRandomのサブクラスなので、自動的にRandomGeneratorのサブタイプとなる。なので手を入れる必要はない。
+・LXMアルゴリズムの具体的な実装を格納し、AbstractSplittableRandomGeneratorを継承するpublicではない以下のクラスを新しく作成する:
+　・L32X64MixRandom
+　・L32X64StarStarRandom
+　・L64X128MixRandom
+　・L64X128StarStarRandom
+　・L64X256MixRandom
+　・L64X1024MixRandom
+　・L128X128MixRandom
+　・L128X256MixRandom
+　・L128X1024MixRandom
+・LXMアルゴリズムのnextLongは2017年12月にSebastiano Vigna氏によって提言された1つのLCGジェネレーターと1つのxorアルゴリズムを元にした「サブジェネレーター」を用いている。
+　・これにより、より良い周期、分散、スケーラビリティー、品質が期待できる。
+　・それぞれの具体的な実装は現在知られている中で最も良い品質のxorアルゴリズムを元にしたジェネレーター (xoroshiro or xoshiro, described by Blackman and Vigna in "Scrambled Linear Pseudorandom Number Generators", ACM Trans. Math. Softw., 2021) 及びLCG (found by a search for better multipliers in 2019 by Steele and Vigna) を合成 (この方法はDoug Lea氏によって見つけられた) して行われている。
+　・テストはSplittableRandomの古い実装よりもはるかに品質が向上したことを示している。
+・xoshiro256++およびxoroshiro128++の実装もそれぞれXoshiro256PlusPlus及びXoroshiro128PlusPlusとして提供される。
+・プログラマーはユースケースとトレードオフを考慮してアルゴリズムを選択することができる。
+・旧クラス群の実装をそのまま上位クラスに委譲することも考えたが、それでは疑似乱数生成器をより簡単に実装できるようにはならないとの結論に達した。
+・旧クラス群の実装を (上位クラスを設けずに) リファクタリングすることも考えた。提案者はトータルのメモリを減らすことになるだろうと考えている。しかし、それも疑似乱数生成器を簡単に実装できるようにはならないし、簡単に実装できるようにもならない。
+・旧クラス群に対するテストはそのまま維持されるべきである。
+・リファクタリングしたあとの旧クラス群の振る舞いが変わっていないか最低一度はチェックするべきである。
+・LXMアルゴリズムがC言語での実装と比べて品質が劣っていないか最低一度はチェックするべきである。
+・jumpとleapが周期上で要請された距離を回るか確かめなければならない。たとえば、nextLongのあとにjumpを呼び出そうが、その逆だろうが、どちらでも正確に2サイクル進んでなければいけない。
